@@ -140,8 +140,6 @@ export default class HttpMock {
     }
   ];
 
-  constructor() { }
-
   get = () => {
     return this.data;
   }
