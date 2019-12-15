@@ -9,14 +9,16 @@ export function LocationTable(props) {
   if (!!locationData && locationData.length > 0) {
     return (
       <Table striped bordered hover>
-        <LocationTableHeader newLocationHandler={props.newLocationHandler} />
+        <LocationTableHeader showNewLocationHandler={props.showNewLocationHandler} />
         <tbody>
-          {locationData.map(location => {
+          {locationData.map((location, i) => {
             return (
               <LocationTableRow
+                key={i}
+                index={i}
                 location={location}
-                editLocationHandler={props.editLocationHandler}
-                deleteLocationHandler={props.deleteLocationHandler} />
+                showEditLocationHandler={props.showEditLocationHandler}
+                showDeleteLocationHandler={props.showDeleteLocationHandler} />
             );
           })}
         </tbody>

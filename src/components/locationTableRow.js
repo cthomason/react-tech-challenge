@@ -13,11 +13,11 @@ export function LocationTableRow(props) {
       <td>{location.longitude}</td>
       <td>{location.elevation}</td>
       <td>
-        <span class="myButton">
-          <Button onClick={props.editLocationHandler}>Edit</Button>
+        <span className="myButton">
+          <Button onClick={() => { props.showEditLocationHandler(props.index) }}>Edit</Button>
         </span>
-        <span class="myButton">
-          <Button variant="danger" onClick={props.deleteLocationHandler}>Delete</Button>
+        <span className="myButton">
+          <Button variant="danger" onClick={() => { props.showDeleteLocationHandler(props.index) }}>Delete</Button>
         </span>
       </td>
     </tr>

@@ -1,7 +1,9 @@
 import React from "react";
 import { Button, Modal } from "react-bootstrap";
 
-export function DeleteLocation(props) {
+import { LocationInputForm } from "./locationInputForm";
+
+export function NewLocation(props) {
   return (
     <Modal
       show={props.show}
@@ -11,12 +13,15 @@ export function DeleteLocation(props) {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Are you sure you want to delete this entry?
+          New Location
         </Modal.Title>
       </Modal.Header>
+      <Modal.Body>
+        <LocationInputForm />
+      </Modal.Body>
       <Modal.Footer>
-        <Button onClick={() => { props.deleteLocationHandler() }}>Yes</Button>
-        <Button onClick={props.closeModalHandler}>No</Button>
+        <Button onClick={props.saveLocationHandler}>Save</Button>
+        <Button onClick={props.closeModalHandler}>Cancel</Button>
       </Modal.Footer>
     </Modal>
   );

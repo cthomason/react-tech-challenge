@@ -11,7 +11,7 @@ export function LocationTableHeader(props) {
         <th>Latitude</th>
         <th>Longitude</th>
         <th>Elevation</th>
-        <th><Button block onClick={props.newLocationHandler}>Add New</Button></th>
+        <th><Button block onClick={props.showNewLocationHandler}>Add New</Button></th>
       </tr>
     </thead>
   )
