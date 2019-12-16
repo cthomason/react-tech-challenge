@@ -4,8 +4,8 @@ import { Accordion, Button, Card } from "react-bootstrap";
 
 import HttpMock from "../lib/HttpMock";
 import { loadData } from "../store/actions/product";
-import { LocationTable } from "../components/LocationTable";
-import { NewLocation } from "../components/newLocationDialog";
+import { LocationTable } from "./LocationTable";
+import { NewLocation } from "./newLocationDialog";
 import { EditLocation } from "./editLocationDialog";
 import { DeleteLocation } from "./deleteLocationDialog";
 import { LocationTableFilter } from "./locationTableFilterAccordion";
@@ -187,20 +187,24 @@ class Main extends React.Component {
     this.setState({ locationToEdit: 0 });
   };
 
+  // Shows the delete location modal dialog
   showDeleteLocation = (index = 0) => {
     this.setState({ locationToDelete: index });
     this.toggleDeleteModal(true);
   };
 
+  // Hides the delete location modal dialog
   closeDeleteLocation = () => {
     this.toggleDeleteModal(false);
     this.setState({ locationToDelete: 0 });
   };
 
+  // Shows the product tracking modal dialog
   showTrackProduct = () => {
     this.toggleTrackingModal(true);
   };
 
+  // Hides the product tracking modal dialog
   closeTrackProduct = () => {
     this.toggleTrackingModal(false);
   };
