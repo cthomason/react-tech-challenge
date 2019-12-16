@@ -142,9 +142,18 @@ export default class HttpMock {
 
   get = () => {
     return this.data;
-  }
+  };
 
-  post = (payload) => {
+  put = (index, payload) => {
+    this.data[index] = payload;
+  };
+
+  post = payload => {
     this.data.push(payload);
-  }
+  };
+
+  delete = index => {
+    this.data.splice(index, 1);
+    console.log(this.data);
+  };
 }

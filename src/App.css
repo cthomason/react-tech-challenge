@@ -1,8 +1,17 @@
 .myButton {
-  padding-left: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .mainPage {
-  margin: 10 10 10 10;
-  padding: 10 10 10 10;
+  margin: 10px 10px 10px 10px;
+}
+
+.verticalSpacer {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.centeredContainer {
+  text-align: center;
 }

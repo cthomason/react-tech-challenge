@@ -5,6 +5,7 @@ export function DeleteLocation(props) {
   return (
     <Modal
       show={props.show}
+      onHide={props.closeModalHandler}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
@@ -15,8 +16,17 @@ export function DeleteLocation(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Footer>
-        <Button onClick={() => { props.deleteLocationHandler() }}>Yes</Button>
-        <Button onClick={props.closeModalHandler}>No</Button>
+        <Button
+          variant="danger"
+          onClick={() => {
+            props.deleteLocationHandler(props.locationToDelete);
+          }}
+        >
+          Yes
+        </Button>
+        <Button variant="secondary" onClick={props.closeModalHandler}>
+          No
+        </Button>
       </Modal.Footer>
     </Modal>
   );

@@ -4,9 +4,13 @@ import { Button, Modal } from "react-bootstrap";
 import { LocationInputForm } from "./locationInputForm";
 
 export function EditLocation(props) {
+  const location = props.location || {};
+  const { index } = props;
+
   return (
     <Modal
       show={props.show}
+      onHide={props.closeModalHandler}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
@@ -17,11 +21,19 @@ export function EditLocation(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <LocationInputForm location={props.location} />
+        <LocationInputForm location={location} />
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={props.saveLocationHandler}>Save</Button>
-        <Button onClick={props.closeModalHandler}>Cancel</Button>
+        <Button
+          onClick={() => {
+            props.saveLocationHandler(index, location);
+          }}
+        >
+          Save
+        </Button>
+        <Button variant="secondary" onClick={props.closeModalHandler}>
+          Cancel
+        </Button>
       </Modal.Footer>
     </Modal>
   );

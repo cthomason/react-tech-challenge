@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { connect } from "react-redux";
 import { Accordion, Button, Card } from "react-bootstrap";
 
@@ -8,8 +8,9 @@ import { LocationTable } from "../components/LocationTable";
 import { NewLocation } from "../components/newLocationDialog";
 import { EditLocation } from "./editLocationDialog";
 import { DeleteLocation } from "./deleteLocationDialog";
-import { LocationTableFilter } from "./locationTableFilter";
-import { TrackProduct } from "./trackProduct";
+import { LocationTableFilter } from "./locationTableFilterAccordion";
+import { TrackProduct } from "./trackProductAccordion";
+import { TrackProductDialog } from "./trackProductDialog";
 
 class Main extends React.Component {
   constructor(props) {
@@ -19,8 +20,18 @@ class Main extends React.Component {
       showNewModal: false,
       showEditModal: false,
       showDeleteModal: false,
+      showTrackingModal: false,
       locationToEdit: 0,
-      locationToDelete: 0
+      locationToDelete: 0,
+      filters: {
+        id: "",
+        description: "",
+        timestamp: "",
+        latitude: "",
+        longitude: "",
+        elevation: ""
+      },
+      trackingID: ""
     };
   }
 
@@ -30,35 +41,53 @@ class Main extends React.Component {
   }
 
   render() {
-    const { locationToEdit, locationToDelete } = this.state;
+    const { locationToEdit } = this.state;
     const { location } = this.props.product;
+
+    let editLocation = {};
+    if (!!location && !!location[locationToEdit]) {
+      editLocation = Object.assign({}, location[locationToEdit]);
+    }
 
     return (
       <div className="mainPage">
-        <Accordion>
-          <Card>
-            <Card.Header>
-              <Accordion.Toggle as={Button} eventKey="0">
-                Track A Product
-            </Accordion.Toggle>
-            </Card.Header>
-            <Accordion.Collapse eventKey="0">
-              <TrackProduct />
-            </Accordion.Collapse>
-          </Card>
-        </Accordion>
-        <Accordion>
-          <Card>
-            <Card.Header>
-              <Accordion.Toggle as={Button} eventKey="0">
-                Filter Results
-            </Accordion.Toggle>
-            </Card.Header>
-            <Accordion.Collapse eventKey="0">
-              <LocationTableFilter />
-            </Accordion.Collapse>
-          </Card>
-        </Accordion>
+        <div className="verticalSpacer">
+          <Accordion>
+            <Card>
+              <Card.Header>
+                <Accordion.Toggle as={Button} eventKey="0">
+                  Track A Product
+                </Accordion.Toggle>
+              </Card.Header>
+              <Accordion.Collapse eventKey="0">
+                <TrackProduct
+                  showTrackProductHandler={this.showTrackProduct}
+                  onClearHandler={this.clearTrackProduct}
+                />
+              </Accordion.Collapse>
+            </Card>
+          </Accordion>
+        </div>
+
+        <div className="verticalSpacer">
+          <Accordion>
+            <Card>
+              <Card.Header>
+                <Accordion.Toggle as={Button} eventKey="0">
+                  Filter Results
+                </Accordion.Toggle>
+              </Card.Header>
+              <Accordion.Collapse eventKey="0">
+                <LocationTableFilter
+                  filters={this.state.filters}
+                  onFilterHandler={this.filterTable}
+                  onClearHandler={this.clearFilters}
+                />
+              </Accordion.Collapse>
+            </Card>
+          </Accordion>
+        </div>
+
         <LocationTable
           locationData={location}
           showNewLocationHandler={this.showNewLocation}
@@ -67,70 +96,153 @@ class Main extends React.Component {
           saveLocationHandler={this.saveLocation}
           deleteLocationHandler={this.deleteLocation}
         />
+
         <NewLocation
           show={this.state.showNewModal}
-          saveLocationHandler={this.saveLocation}
-          closeModalHandler={() => { this.closeNewLocation() }} />
+          saveLocationHandler={this.saveNewLocation}
+          closeModalHandler={() => {
+            this.closeNewLocation();
+          }}
+        />
+
         <EditLocation
           show={this.state.showEditModal}
           saveLocationHandler={this.saveLocation}
-          closeModalHandler={() => { this.closeEditLocation() }}
+          location={editLocation}
+          index={this.state.locationToEdit}
+          closeModalHandler={() => {
+            this.closeEditLocation();
+          }}
         />
+
         <DeleteLocation
           show={this.state.showDeleteModal}
           deleteLocationHandler={this.deleteLocation}
-          closeModalHandler={() => { this.closeDeleteLocation() }} />
+          locationToDelete={this.state.locationToDelete}
+          closeModalHandler={() => {
+            this.closeDeleteLocation();
+          }}
+        />
+
+        <TrackProductDialog
+          show={this.state.showTrackingModal}
+          closeModalHandler={this.closeTrackProduct}
+          trackingID={this.state.trackingID}
+        />
       </div>
     );
   }
 
-  saveLocation = (index = 0) => {
-    console.log("saving", index);
-  }
+  // Updates a specific location in the dataset
+  saveLocation = (index, location) => {
+    this.toggleEditModal(false);
 
+    this.http.put(index, location);
+
+    const data = this.http.get();
+    this.props.dispatch(loadData(data));
+  };
+
+  // Adds a new location to the data set
+  saveNewLocation = newLocation => {
+    this.toggleNewModal(false);
+
+    this.http.post(newLocation);
+
+    const data = this.http.get();
+    this.props.dispatch(loadData(data));
+  };
+
+  // Deletes a location from the data set identified by index
   deleteLocation = (index = 0) => {
-    console.log("deleting", index);
-  }
+    // Hide the modal
+    this.toggleDeleteModal(false);
 
+    // Send the delete request to the API
+    this.http.delete(index);
+
+    const data = this.http.get();
+    this.props.dispatch(loadData(data));
+  };
+
+  // Shows the new location modal dialog
   showNewLocation = () => {
     this.toggleNewModal(true);
-  }
+  };
 
+  // Hides the new location modal dialog
   closeNewLocation = () => {
     this.toggleNewModal(false);
-  }
+  };
 
+  // Shows the edit location modal dialog
   showEditLocation = (index = 0) => {
     this.setState({ locationToEdit: index });
     this.toggleEditModal(true);
-  }
+  };
 
+  // Hides the edit location modal dialog
   closeEditLocation = () => {
     this.toggleEditModal(false);
     this.setState({ locationToEdit: 0 });
-  }
+  };
 
   showDeleteLocation = (index = 0) => {
     this.setState({ locationToDelete: index });
     this.toggleDeleteModal(true);
-  }
+  };
 
   closeDeleteLocation = () => {
     this.toggleDeleteModal(false);
     this.setState({ locationToDelete: 0 });
-  }
+  };
 
-  toggleNewModal = (val) => {
+  showTrackProduct = () => {
+    this.toggleTrackingModal(true);
+  };
+
+  closeTrackProduct = () => {
+    this.toggleTrackingModal(false);
+  };
+
+  clearTrackProduct = () => {
+    console.log("clearing product");
+  };
+
+  toggleNewModal = val => {
     this.setState({ showNewModal: val });
-  }
+  };
 
-  toggleEditModal = (val) => {
+  toggleEditModal = val => {
     this.setState({ showEditModal: val });
-  }
+  };
 
-  toggleDeleteModal = (val) => {
+  toggleDeleteModal = val => {
     this.setState({ showDeleteModal: val });
-  }
+  };
+
+  toggleTrackingModal = val => {
+    this.setState({ showTrackingModal: val });
+  };
+
+  filterTable = () => {
+    console.log("filtering");
+    this.setState({ trackingID: "" });
+  };
+
+  clearFilters = () => {
+    console.log("clearing filters");
+    this.setState({
+      filters: {
+        id: "",
+        description: "",
+        timestamp: "",
+        latitude: "",
+        longitude: "",
+        elevation: ""
+      }
+    });
+  };
 }
 
 function mapStateToProps(state) {
