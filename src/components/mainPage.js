@@ -31,7 +31,8 @@ class Main extends React.Component {
         longitude: "",
         elevation: ""
       },
-      trackingID: ""
+      trackingID: "",
+      trackingData: []
     };
   }
 
@@ -63,6 +64,7 @@ class Main extends React.Component {
                 <TrackProduct
                   showTrackProductHandler={this.showTrackProduct}
                   onClearHandler={this.clearTrackProduct}
+                  defaultValue={this.state.trackingID}
                 />
               </Accordion.Collapse>
             </Card>
@@ -128,6 +130,7 @@ class Main extends React.Component {
           show={this.state.showTrackingModal}
           closeModalHandler={this.closeTrackProduct}
           trackingID={this.state.trackingID}
+          trackingData={this.state.trackingData}
         />
       </div>
     );
@@ -200,17 +203,26 @@ class Main extends React.Component {
   };
 
   // Shows the product tracking modal dialog
-  showTrackProduct = () => {
+  showTrackProduct = trackingID => {
+    this.setState({ trackingID });
     this.toggleTrackingModal(true);
+    let trackingData = this.props.product.location.filter(
+      l => l.id === Number(trackingID)
+    );
+    trackingData.sort((a, b) => {
+      return a.timestamp < b.timestamp;
+    });
+    this.setState({ trackingData });
   };
 
   // Hides the product tracking modal dialog
   closeTrackProduct = () => {
     this.toggleTrackingModal(false);
+    this.setState({ trackingData: [] });
   };
 
   clearTrackProduct = () => {
-    console.log("clearing product");
+    this.setState({ trackingID: "" });
   };
 
   toggleNewModal = val => {
@@ -230,12 +242,10 @@ class Main extends React.Component {
   };
 
   filterTable = () => {
-    console.log("filtering");
     this.setState({ trackingID: "" });
   };
 
   clearFilters = () => {
-    console.log("clearing filters");
     this.setState({
       filters: {
         id: "",

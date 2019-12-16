@@ -13,7 +13,7 @@ export function LocationInputForm(props) {
             type="text"
             defaultValue={location.id || ""}
             onChange={e => {
-              location.id = e.target.value;
+              location.id = Number(e.target.value);
             }}
           />
         </Form.Group>

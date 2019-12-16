@@ -32,7 +32,6 @@ export function NewLocation(props) {
       <Modal.Footer>
         <Button
           onClick={() => {
-            console.log(newLocation);
             props.saveLocationHandler(newLocation);
           }}
         >

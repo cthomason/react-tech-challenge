@@ -5,6 +5,12 @@ import { ViewLocation } from "./viewLocation";
 
 export function TrackProductDialog(props) {
   const trackingID = props.trackingID || 0;
+  const trackingData = props.trackingData || [];
+  // Assuming all descriptions are the same
+  let description = "";
+  if (!!trackingData && trackingData.length > 0) {
+    description = trackingData[0].description;
+  }
 
   return (
     <div className="verticalSpacer">
@@ -17,12 +23,14 @@ export function TrackProductDialog(props) {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Tracking Product {trackingID}
+            Tracking Product {description}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Tracking info goes here
-          <ViewLocation />
+          History:
+          {props.trackingData.map((l, i) => {
+            return <ViewLocation key={i} location={l} />;
+          })}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={props.closeModalHandler}>

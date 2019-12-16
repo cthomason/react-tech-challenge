@@ -154,6 +154,5 @@ export default class HttpMock {
 
   delete = index => {
     this.data.splice(index, 1);
-    console.log(this.data);
   };
 }
