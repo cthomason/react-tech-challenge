@@ -147,8 +147,8 @@ export default class HttpMock {
     return this.data;
   };
 
-  // Mock implementation of REST PUT call
-  put = (index, payload) => {
+  // Mock implementation of REST PATCH call
+  patch = (index, payload) => {
     this.data[index] = payload;
   };
 

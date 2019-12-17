@@ -1,68 +1,38 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Requirements
 
-## Available Scripts
+Use React.Js for the front end, and back end can be just static data set or anything of your choice.
 
-In the project directory, you can run:
+1.  Import the initial data set into your own data storage as backend. The format can be anything such as objects, database, file system, etc.
 
-### `npm start`
+2.  Create an interface to view, record and track the location of a product (its Longitude, Latitude, Elevation) at a specific Date/time. The interface should have basic functionalities like: add, delete, update entries in your data storage.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+3.  Create a filterable table view of the information, listing all locations of a specific product or multiple products within a specific date range, within a specific product range.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+### Instructions
 
-### `npm test`
+1. Clone the repo locally
+2. Change to the project's root directory
+3. Install dependencies with `npm install`
+4. Run the project with `npm start`
+5. Once the project is running it is available at `http://localhost:3000`. Navigate there in a web browser to view.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Additional Comments
 
-### `npm run build`
+This project was designed as though it was going to be the basis for a much larger
+web application. As such it is using a combination of both local and global state
+to manage the application's data. Currently only the global set of location data
+is stored in redux. The only existing page uses it's own local state to manage
+any properties that are exclusive to it. Other pages would behave in a similar
+fashion once created. This would prevent polluting the global state with a large
+amount of unnecessary data.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The main page is defined in `/src/components/mainPage.js`. It's currently the only
+smart component in the project. All other components are dumb components that concern
+themselves solely with data presentation and user interface. In addition, all business
+logic is contained in the main page in order to keep it all in one place for
+future maintainability. Any data needed by the dumb components is passed down through
+props and modifications recived through callbacks.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+The project was also designed on the assumption that it would be talking to a REST
+API accessed through an http client. A mock http implementation has been included
+to give the idea of what it would look like with an actual REST backend to use.
