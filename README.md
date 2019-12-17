@@ -36,3 +36,10 @@ props and modifications recived through callbacks.
 The project was also designed on the assumption that it would be talking to a REST
 API accessed through an http client. A mock http implementation has been included
 to give the idea of what it would look like with an actual REST backend to use.
+
+The table filters and product ID tracking are expecting exact matches only. There
+is no input validation performed on any field so some exceptions may be thrown in
+the console if non-number values are provided for the ID, latitude, longitude, or
+elevation when creating or updating a location's data. Robust input validation and
+better table filtering are features that would be implemented in production but I
+did not have time to add them for this project.
