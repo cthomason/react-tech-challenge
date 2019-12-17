@@ -16,8 +16,7 @@ export function LocationTableFilter(props) {
                   placeholder="ID"
                   value={filters.id}
                   onChange={e => {
-                    console.log(e.target.value);
-                    filters.id += e.target.value;
+                    props.handleFilterChange("id", e.target.value);
                   }}
                 />
               </Col>
@@ -25,9 +24,9 @@ export function LocationTableFilter(props) {
                 <Form.Control
                   type="text"
                   placeholder="Description"
-                  value={props.filters.description}
+                  value={filters.description}
                   onChange={e => {
-                    filters.description = e.target.value;
+                    props.handleFilterChange("description", e.target.value);
                   }}
                 />
               </Col>
@@ -35,9 +34,9 @@ export function LocationTableFilter(props) {
                 <Form.Control
                   type="text"
                   placeholder="Date"
-                  value={props.filters.timestamp}
+                  value={filters.timestamp}
                   onChange={e => {
-                    filters.timestamp = e.target.value;
+                    props.handleFilterChange("timestamp", e.target.value);
                   }}
                 />
               </Col>
@@ -45,9 +44,9 @@ export function LocationTableFilter(props) {
                 <Form.Control
                   type="text"
                   placeholder="Latitude"
-                  value={props.filters.latitude}
+                  value={filters.latitude}
                   onChange={e => {
-                    filters.latitude = e.target.value;
+                    props.handleFilterChange("latitude", e.target.value);
                   }}
                 />
               </Col>
@@ -55,9 +54,9 @@ export function LocationTableFilter(props) {
                 <Form.Control
                   type="text"
                   placeholder="Longitude"
-                  value={props.filters.longitude}
+                  value={filters.longitude}
                   onChange={e => {
-                    filters.longitude = e.target.value;
+                    props.handleFilterChange("longitude", e.target.value);
                   }}
                 />
               </Col>
@@ -65,9 +64,9 @@ export function LocationTableFilter(props) {
                 <Form.Control
                   type="text"
                   placeholder="Elevation"
-                  value={props.filters.elevation}
+                  value={filters.elevation}
                   onChange={e => {
-                    filters.elevation = e.target.value;
+                    props.handleFilterChange("elevation", e.target.value);
                   }}
                 />
               </Col>

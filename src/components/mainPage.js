@@ -17,10 +17,16 @@ import { LocationTableFilter } from "./locationTableFilterAccordion";
 import { TrackProduct } from "./trackProductAccordion";
 import { TrackProductDialog } from "./trackProductDialog";
 
+// Main is the container component for this particular page.  It's where all the
+// business logic lives.  All other components are dumb components that only
+// concern themselves with presentation.  This ensures that the business logic is
+// contained to one spot instead of spread out across multiple files.
 class Main extends React.Component {
   constructor(props) {
     super(props);
     this.http = new HttpMock();
+    // Store state related to this page only in the local state
+    // Since the location data is global, it's in the global state
     this.state = {
       showNewModal: false,
       showEditModal: false,
@@ -71,7 +77,8 @@ class Main extends React.Component {
                 <TrackProduct
                   showTrackProductHandler={this.showTrackProduct}
                   onClearHandler={this.clearTrackProduct}
-                  defaultValue={this.state.trackingID}
+                  trackingID={this.state.trackingID}
+                  handleTrackingIDChange={this.handleTrackingIDChange}
                 />
               </Accordion.Collapse>
             </Card>
@@ -91,6 +98,7 @@ class Main extends React.Component {
                   filters={this.state.filters}
                   onFilterHandler={this.filterTable}
                   onClearHandler={this.clearFilters}
+                  handleFilterChange={this.handleFilterChange}
                 />
               </Accordion.Collapse>
             </Card>
@@ -222,6 +230,11 @@ class Main extends React.Component {
     this.setState({ trackingData });
   };
 
+  // Callback to handle updates to the tracking ID
+  handleTrackingIDChange = trackingID => {
+    this.setState({ trackingID });
+  };
+
   // Hides the product tracking modal dialog
   closeTrackProduct = () => {
     this.toggleTrackingModal(false);
@@ -300,6 +313,33 @@ class Main extends React.Component {
 
     // Update the filters and the data displayed
     this.setState({ filters, filteredData });
+  };
+
+  // Callback to handle filter updates
+  handleFilterChange = (filter, val) => {
+    const { filters } = this.state;
+
+    // Use a switch so we only need to pass in a single callback for filter changes
+    switch (filter) {
+      case "id":
+        this.setState({ filters: { ...filters, id: val } });
+        break;
+      case "description":
+        this.setState({ filters: { ...filters, description: val } });
+        break;
+      case "timestamp":
+        this.setState({ filters: { ...filters, timestamp: val } });
+        break;
+      case "latitude":
+        this.setState({ filters: { ...filters, latitude: val } });
+        break;
+      case "longitude":
+        this.setState({ filters: { ...filters, longitude: val } });
+        break;
+      case "elevation":
+        this.setState({ filters: { ...filters, elevation: val } });
+        break;
+    }
   };
 
   // Clears the filters used to filter the location data

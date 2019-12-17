@@ -1,5 +1,8 @@
 const defaultState = {};
 
+// Only the global location data is stored in redux here.  Everything that's
+// page specific remains local to the page.  In production there would be a lot
+// more being stored in redux.
 export function location(state = defaultState, action) {
   switch (action.type) {
     // for the purposes of this challenge the actions are hard coded

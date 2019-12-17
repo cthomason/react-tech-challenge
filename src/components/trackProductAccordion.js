@@ -2,7 +2,6 @@ import React from "react";
 import { Button, Col, Form } from "react-bootstrap";
 
 export function TrackProduct(props) {
-  let trackingID = "";
   return (
     <div className="verticalSpacer">
       <Form>
@@ -10,8 +9,9 @@ export function TrackProduct(props) {
           <Form.Control
             type="text"
             placeholder="Product ID"
+            value={props.trackingID}
             onChange={e => {
-              trackingID = e.target.value;
+              props.handleTrackingIDChange(e.target.value);
             }}
           />
         </Col>
@@ -19,7 +19,7 @@ export function TrackProduct(props) {
           <span className="myButton">
             <Button
               onClick={() => {
-                props.showTrackProductHandler(trackingID);
+                props.showTrackProductHandler(props.trackingID);
               }}
             >
               Track
