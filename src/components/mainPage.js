@@ -155,7 +155,7 @@ class Main extends React.Component {
   saveLocation = (index, location) => {
     this.toggleEditModal(false);
 
-    this.http.put(index, location);
+    this.http.patch(index, location);
 
     const data = this.http.get();
     this.props.dispatch(updateLocation(data));
