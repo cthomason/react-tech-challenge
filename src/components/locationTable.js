@@ -1,7 +1,7 @@
 import React from "react";
 import { Spinner, Table } from "react-bootstrap";
-import { LocationTableHeader } from "./LocationTableHeader";
-import { LocationTableRow } from "./LocationTableRow";
+import { LocationTableHeader } from "./locationTableHeader";
+import { LocationTableRow } from "./locationTableRow";
 
 export function LocationTable(props) {
   const { locationData } = props;
@@ -9,7 +9,9 @@ export function LocationTable(props) {
   if (!!locationData && locationData.length > 0) {
     return (
       <Table striped bordered hover>
-        <LocationTableHeader showNewLocationHandler={props.showNewLocationHandler} />
+        <LocationTableHeader
+          showNewLocationHandler={props.showNewLocationHandler}
+        />
         <tbody>
           {locationData.map((location, i) => {
             return (
@@ -18,12 +20,13 @@ export function LocationTable(props) {
                 index={i}
                 location={location}
                 showEditLocationHandler={props.showEditLocationHandler}
-                showDeleteLocationHandler={props.showDeleteLocationHandler} />
+                showDeleteLocationHandler={props.showDeleteLocationHandler}
+              />
             );
           })}
         </tbody>
       </Table>
-    )
+    );
   }
 
   return <Spinner animation="border" />;

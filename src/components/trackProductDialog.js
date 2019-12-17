@@ -4,9 +4,9 @@ import { Button, Modal } from "react-bootstrap";
 import { ViewLocation } from "./viewLocation";
 
 export function TrackProductDialog(props) {
-  const trackingID = props.trackingID || 0;
   const trackingData = props.trackingData || [];
-  // Assuming all descriptions are the same
+
+  // Assuming all descriptions are the same for the same ID
   let description = "";
   if (!!trackingData && trackingData.length > 0) {
     description = trackingData[0].description;

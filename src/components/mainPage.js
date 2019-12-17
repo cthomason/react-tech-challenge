@@ -9,7 +9,7 @@ import {
   addLocation,
   deleteLocation
 } from "../store/actions/location";
-import { LocationTable } from "./LocationTable";
+import { LocationTable } from "./locationTable";
 import { NewLocation } from "./newLocationDialog";
 import { EditLocation } from "./editLocationDialog";
 import { DeleteLocation } from "./deleteLocationDialog";
@@ -50,7 +50,7 @@ class Main extends React.Component {
 
   render() {
     const { locationToEdit } = this.state;
-    const { location } = this.props.location;
+    const { location } = this.props;
 
     let editLocation = {};
     if (!!location && !!location[locationToEdit]) {
@@ -213,7 +213,7 @@ class Main extends React.Component {
   showTrackProduct = trackingID => {
     this.setState({ trackingID });
     this.toggleTrackingModal(true);
-    let trackingData = this.props.location.location.filter(
+    let trackingData = this.props.location.filter(
       l => l.id === Number(trackingID)
     );
     trackingData.sort((a, b) => {
@@ -228,31 +228,39 @@ class Main extends React.Component {
     this.setState({ trackingData: [] });
   };
 
+  // Clears the trackingID value
   clearTrackProduct = () => {
     this.setState({ trackingID: "" });
   };
 
+  // Shows or hides the add new location modal
   toggleNewModal = val => {
     this.setState({ showNewModal: val });
   };
 
+  // Shows or hides the edit location modal
   toggleEditModal = val => {
     this.setState({ showEditModal: val });
   };
 
+  // Shows or hides the delete location modal
   toggleDeleteModal = val => {
     this.setState({ showDeleteModal: val });
   };
 
+  // Shows or hides the product tracking modal
   toggleTrackingModal = val => {
     this.setState({ showTrackingModal: val });
   };
 
+  // Filters the location data according to the filters received
+  // In this implementation it filters by exact match only
   filterTable = filters => {
-    let filteredData = this.props.location.location;
+    let filteredData = this.props.location;
 
     if (!!filters.id) {
       filteredData = filteredData.filter(d => {
+        // ID data type is number so convert the filter accordingly
         return d.id === Number(filters.id);
       });
     }
@@ -271,27 +279,32 @@ class Main extends React.Component {
 
     if (!!filters.latitude) {
       filteredData = filteredData.filter(d => {
+        // Latitude data type is also a number
         return d.latitude === Number(filters.latitude);
       });
     }
 
     if (!!filters.longitude) {
       filteredData = filteredData.filter(d => {
+        // Longitude data type is also a number
         return d.longitude === Number(filters.longitude);
       });
     }
 
     if (!!filters.elevation) {
       filteredData = filteredData.filter(d => {
+        // Elevation data type is also a number
         return d.elevation === Number(filters.elevation);
       });
     }
 
+    // Update the filters and the data displayed
     this.setState({ filters, filteredData });
   };
 
+  // Clears the filters used to filter the location data
   clearFilters = () => {
-    const filteredData = this.props.location.location;
+    const filteredData = this.props.location;
     this.setState({
       filters: {
         id: "",
@@ -309,7 +322,7 @@ class Main extends React.Component {
 function mapStateToProps(state) {
   const { location } = state;
 
-  return { location };
+  return location;
 }
 
 export default connect(mapStateToProps)(Main);

@@ -1,5 +1,7 @@
 // Fake HTTP server to provide us with data
 
+// In a real implementation this would exist in a database.  But for the purposes
+// of this challenge, we're just going to use an array
 export default class HttpMock {
   data = [
     {
@@ -140,18 +142,22 @@ export default class HttpMock {
     }
   ];
 
+  // Mock implementation of REST GET call
   get = () => {
     return this.data;
   };
 
+  // Mock implementation of REST PUT call
   put = (index, payload) => {
     this.data[index] = payload;
   };
 
+  // Mock implementation of REST POST call
   post = payload => {
     this.data.push(payload);
   };
 
+  // Mock implementation of REST DELETE call
   delete = index => {
     this.data.splice(index, 1);
   };
