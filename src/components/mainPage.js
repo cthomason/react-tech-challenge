@@ -339,6 +339,8 @@ class Main extends React.Component {
       case "elevation":
         this.setState({ filters: { ...filters, elevation: val } });
         break;
+      default:
+        break;
     }
   };
 
