@@ -2,6 +2,8 @@ import React from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 
 export function LocationTableFilter(props) {
+  const { filters } = props;
+
   return (
     <div>
       <Form>
@@ -12,42 +14,61 @@ export function LocationTableFilter(props) {
                 <Form.Control
                   type="text"
                   placeholder="ID"
-                  defaultValue={props.filters.id}
+                  value={filters.id}
+                  onChange={e => {
+                    console.log(e.target.value);
+                    filters.id += e.target.value;
+                  }}
                 />
               </Col>
               <Col>
                 <Form.Control
                   type="text"
                   placeholder="Description"
-                  defaultValue={props.filters.description}
+                  value={props.filters.description}
+                  onChange={e => {
+                    filters.description = e.target.value;
+                  }}
                 />
               </Col>
               <Col>
                 <Form.Control
                   type="text"
                   placeholder="Date"
-                  defaultValue={props.filters.timestamp}
+                  value={props.filters.timestamp}
+                  onChange={e => {
+                    filters.timestamp = e.target.value;
+                  }}
                 />
               </Col>
               <Col>
                 <Form.Control
                   type="text"
                   placeholder="Latitude"
-                  defaultValue={props.filters.latitude}
+                  value={props.filters.latitude}
+                  onChange={e => {
+                    filters.latitude = e.target.value;
+                  }}
                 />
               </Col>
               <Col>
                 <Form.Control
                   type="text"
                   placeholder="Longitude"
-                  defaultValue={props.filters.longitude}
+                  value={props.filters.longitude}
+                  onChange={e => {
+                    filters.longitude = e.target.value;
+                  }}
                 />
               </Col>
               <Col>
                 <Form.Control
                   type="text"
                   placeholder="Elevation"
-                  defaultValue={props.filters.elevation}
+                  value={props.filters.elevation}
+                  onChange={e => {
+                    filters.elevation = e.target.value;
+                  }}
                 />
               </Col>
             </Row>
@@ -56,7 +77,7 @@ export function LocationTableFilter(props) {
             <span className="myButton">
               <Button
                 onClick={() => {
-                  props.onFilterHandler();
+                  props.onFilterHandler(filters);
                 }}
               >
                 Filter

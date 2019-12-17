@@ -3,7 +3,12 @@ import { connect } from "react-redux";
 import { Accordion, Button, Card } from "react-bootstrap";
 
 import HttpMock from "../lib/HttpMock";
-import { loadData } from "../store/actions/product";
+import {
+  loadLocations,
+  updateLocation,
+  addLocation,
+  deleteLocation
+} from "../store/actions/location";
 import { LocationTable } from "./LocationTable";
 import { NewLocation } from "./newLocationDialog";
 import { EditLocation } from "./editLocationDialog";
@@ -32,18 +37,20 @@ class Main extends React.Component {
         elevation: ""
       },
       trackingID: "",
-      trackingData: []
+      trackingData: [],
+      filteredData: {}
     };
   }
 
   componentDidMount() {
     const data = this.http.get();
-    this.props.dispatch(loadData(data));
+    this.props.dispatch(loadLocations(data));
+    this.setState({ filteredData: data });
   }
 
   render() {
     const { locationToEdit } = this.state;
-    const { location } = this.props.product;
+    const { location } = this.props.location;
 
     let editLocation = {};
     if (!!location && !!location[locationToEdit]) {
@@ -91,7 +98,7 @@ class Main extends React.Component {
         </div>
 
         <LocationTable
-          locationData={location}
+          locationData={this.state.filteredData}
           showNewLocationHandler={this.showNewLocation}
           showEditLocationHandler={this.showEditLocation}
           showDeleteLocationHandler={this.showDeleteLocation}
@@ -143,7 +150,7 @@ class Main extends React.Component {
     this.http.put(index, location);
 
     const data = this.http.get();
-    this.props.dispatch(loadData(data));
+    this.props.dispatch(updateLocation(data));
   };
 
   // Adds a new location to the data set
@@ -153,7 +160,7 @@ class Main extends React.Component {
     this.http.post(newLocation);
 
     const data = this.http.get();
-    this.props.dispatch(loadData(data));
+    this.props.dispatch(addLocation(data));
   };
 
   // Deletes a location from the data set identified by index
@@ -165,7 +172,7 @@ class Main extends React.Component {
     this.http.delete(index);
 
     const data = this.http.get();
-    this.props.dispatch(loadData(data));
+    this.props.dispatch(deleteLocation(data));
   };
 
   // Shows the new location modal dialog
@@ -206,7 +213,7 @@ class Main extends React.Component {
   showTrackProduct = trackingID => {
     this.setState({ trackingID });
     this.toggleTrackingModal(true);
-    let trackingData = this.props.product.location.filter(
+    let trackingData = this.props.location.location.filter(
       l => l.id === Number(trackingID)
     );
     trackingData.sort((a, b) => {
@@ -241,11 +248,50 @@ class Main extends React.Component {
     this.setState({ showTrackingModal: val });
   };
 
-  filterTable = () => {
-    this.setState({ trackingID: "" });
+  filterTable = filters => {
+    let filteredData = this.props.location.location;
+
+    if (!!filters.id) {
+      filteredData = filteredData.filter(d => {
+        return d.id === Number(filters.id);
+      });
+    }
+
+    if (!!filters.description) {
+      filteredData = filteredData.filter(d => {
+        return d.description === filters.description;
+      });
+    }
+
+    if (!!filters.timestamp) {
+      filteredData = filteredData.filter(d => {
+        return d.timestamp === filters.timestamp;
+      });
+    }
+
+    if (!!filters.latitude) {
+      filteredData = filteredData.filter(d => {
+        return d.latitude === Number(filters.latitude);
+      });
+    }
+
+    if (!!filters.longitude) {
+      filteredData = filteredData.filter(d => {
+        return d.longitude === Number(filters.longitude);
+      });
+    }
+
+    if (!!filters.elevation) {
+      filteredData = filteredData.filter(d => {
+        return d.elevation === Number(filters.elevation);
+      });
+    }
+
+    this.setState({ filters, filteredData });
   };
 
   clearFilters = () => {
+    const filteredData = this.props.location.location;
     this.setState({
       filters: {
         id: "",
@@ -254,15 +300,16 @@ class Main extends React.Component {
         latitude: "",
         longitude: "",
         elevation: ""
-      }
+      },
+      filteredData
     });
   };
 }
 
 function mapStateToProps(state) {
-  const { product } = state;
+  const { location } = state;
 
-  return { product };
+  return { location };
 }
 
 export default connect(mapStateToProps)(Main);
