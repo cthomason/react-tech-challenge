@@ -9,7 +9,7 @@ import reducers from "./store/reducers/index";
 import Main from "./components/mainPage";
 import ProfilePage from "./components/profilePage";
 import PromisePage from "./components/promisePage";
-import { Dropdown } from "react-bootstrap";
+import { Nav } from "react-bootstrap";
 
 function App() {
   const store = createStore(
@@ -20,21 +20,23 @@ function App() {
   return (
     <Provider store={store}>
       <Router>
-        <Dropdown>
-          <Dropdown.Toggle id="navDropdown">Navigation</Dropdown.Toggle>
-
-          <Dropdown.Menu>
-            <Dropdown.Item>
+        <Nav activeKey="/home">
+          <Nav.Item>
+            <Nav.Link>
               <Link to="/">Home</Link>
-            </Dropdown.Item>
-            <Dropdown.Item>
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link>
               <Link to="/profile">Profile</Link>
-            </Dropdown.Item>
-            <Dropdown.Item>
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link>
               <Link to="/promise">Promise</Link>
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
+            </Nav.Link>
+          </Nav.Item>
+        </Nav>
 
         <Switch>
           <Route path="/profile">
