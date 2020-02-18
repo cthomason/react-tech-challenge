@@ -15,8 +15,13 @@ class PromisePage extends React.Component {
   render() {
     return (
       <div className="page">
-        <Button onClick={this.clickHandler}>Click Me!</Button>
-        {this.state.displayText}
+        <div>
+          <Button id="clickMe" onClick={this.clickHandler}>Click Me!</Button>
+          {this.state.displayText}
+        </div>
+        <div>
+          <Button id="badPromise" onClick={this.}>Reject!</Button>
+        </div>
       </div>
     );
   }
@@ -30,6 +35,22 @@ class PromisePage extends React.Component {
 
     myPromise.then(() => {
       this.setState({ displayText: "Promise fulfilled!" });
+    });
+
+    logClick("/promise", e.target.id);
+  };
+
+  badClickHandler = e => {
+    let myPromise = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        reject("Failure");
+      }, 1000);
+    });
+
+    myPromise.then(() => {
+      this.setState({ displayText: "Promise fulfilled!" });
+    }).catch(error => {
+      console.log(error);
     });
 
     logClick("/promise", e.target.id);
