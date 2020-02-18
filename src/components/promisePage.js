@@ -51,7 +51,7 @@ class PromisePage extends React.Component {
       logError("error payload");
     });
 
-    myPromose.onUnhandledRejectionHandled(() => {
+    myPromise.onUnhandledRejectionHandled(() => {
       logError("error payload");
     });
 
