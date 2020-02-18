@@ -20,7 +20,7 @@ class PromisePage extends React.Component {
           {this.state.displayText}
         </div>
         <div>
-          <Button id="badPromise" onClick={this.}>Reject!</Button>
+          <Button id="badPromise" onClick={this.badClickHandler}>Reject!</Button>
         </div>
       </div>
     );
