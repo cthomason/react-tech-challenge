@@ -58,7 +58,7 @@ class ProfilePage extends React.Component {
   clickHandler = (e) => {
     console.log("Saving user info", this.state.firstName, this.state.lastName);
 
-    logClick("/profile", e.target.id)
+    logClick("/profile", e.target.id);
   };
 }
 

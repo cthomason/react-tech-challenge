@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Button } from "react-bootstrap";
-import axios from "axios";
+import { logClick } from "../lib/utils";
 
 class PromisePage extends React.Component {
   constructor(props) {
@@ -20,7 +20,7 @@ class PromisePage extends React.Component {
     );
   }
 
-  clickHandler = () => {
+  clickHandler = e => {
     let myPromise = new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve("Success");
@@ -31,13 +31,7 @@ class PromisePage extends React.Component {
       this.setState({ displayText: "Promise fulfilled!" });
     });
 
-    axios.post("http://localhost:8080/clicks", {url: "/promise", elem: "button"})
-    .then(response => {
-      console.log(response)
-    })
-    .catch(error => {
-      console.log(error)
-    });
+    logClick("/promise", e.target.id);
   };
 }
 

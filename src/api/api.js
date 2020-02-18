@@ -15,7 +15,7 @@ app.listen(8080, () => {
 });
 
 app.post("/clicks", (req, res, next) => {
-  console.log("Logging click", req.params.page, req.params.elem);
+  console.log("Logging click", req.query);
 });
 
 app.post("/errors", (req, res, next) => {

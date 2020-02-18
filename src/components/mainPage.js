@@ -16,6 +16,7 @@ import { DeleteLocation } from "./deleteLocationDialog";
 import { LocationTableFilter } from "./locationTableFilterAccordion";
 import { TrackProduct } from "./trackProductAccordion";
 import { TrackProductDialog } from "./trackProductDialog";
+import { logClick } from "../lib/utils";
 
 // Main is the container component for this particular page.  It's where all the
 // business logic lives.  All other components are dumb components that only
@@ -69,7 +70,7 @@ class Main extends React.Component {
           <Accordion>
             <Card>
               <Card.Header>
-                <Accordion.Toggle as={Button} eventKey="0">
+                <Accordion.Toggle as={Button} eventKey="0" id="productToggle" onClick={e => {logClick("/", e.target.id)}}>
                   Track A Product
                 </Accordion.Toggle>
               </Card.Header>
@@ -89,7 +90,7 @@ class Main extends React.Component {
           <Accordion>
             <Card>
               <Card.Header>
-                <Accordion.Toggle as={Button} eventKey="0">
+                <Accordion.Toggle as={Button} eventKey="0" id="filterToggle" onClick={e => {logClick("/", e.target.id)}}>
                   Filter Results
                 </Accordion.Toggle>
               </Card.Header>
