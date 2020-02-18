@@ -43,7 +43,7 @@ class PromisePage extends React.Component {
   badClickHandler = e => {
     let myPromise = new Promise((resolve, reject) => {
       setTimeout(() => {
-        reject("Failure");
+        reject(new Error("failure"));
       }, 1000);
     });
 
