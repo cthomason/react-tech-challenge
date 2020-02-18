@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Button } from "react-bootstrap";
 import { logClick } from "../lib/utils";
+import * as Promise from "bluebird";
 
 class PromisePage extends React.Component {
   constructor(props) {

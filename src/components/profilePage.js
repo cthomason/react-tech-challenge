@@ -47,6 +47,7 @@ class ProfilePage extends React.Component {
           </Col>
         </Form>
         <Button
+          id="saveName"
           onClick={this.clickHandler}
         >
           Save
