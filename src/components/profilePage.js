@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Button, Col, Form, Row } from "react-bootstrap";
+import { logClick } from "../lib/utils";
 
 class ProfilePage extends React.Component {
   constructor(props) {
@@ -11,6 +12,7 @@ class ProfilePage extends React.Component {
       lastName: ""
     };
   }
+
   render() {
     return (
       <div className="page">
@@ -45,19 +47,19 @@ class ProfilePage extends React.Component {
           </Col>
         </Form>
         <Button
-          onClick={() => {
-            console.log(
-              "Saving user info",
-              this.state.firstName,
-              this.state.lastName
-            );
-          }}
+          onClick={this.clickHandler}
         >
           Save
         </Button>
-      </div>
+        </div>
     );
   }
+
+  clickHandler = (e) => {
+    console.log("Saving user info", this.state.firstName, this.state.lastName);
+
+    logClick("/profile", e.target.id)
+  };
 }
 
 function mapStateToProps(state) {
