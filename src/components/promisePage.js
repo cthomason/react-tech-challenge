@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Button } from "react-bootstrap";
-import { logClick } from "../lib/utils";
+import { logClick, logError } from "../lib/utils";
 import * as Promise from "bluebird";
 
 class PromisePage extends React.Component {
@@ -45,6 +45,14 @@ class PromisePage extends React.Component {
       setTimeout(() => {
         reject("Failure");
       }, 1000);
+    });
+
+    myPromise.onPossiblyUnhandledRejection(() => {
+      logError("error payload");
+    });
+
+    myPromose.onUnhandledRejectionHandled(() => {
+      logError("error payload");
     });
 
     myPromise.then(() => {
