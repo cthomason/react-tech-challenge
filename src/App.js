@@ -9,6 +9,7 @@ import reducers from "./store/reducers/index";
 import Main from "./components/mainPage";
 import ProfilePage from "./components/profilePage";
 import PromisePage from "./components/promisePage";
+import { Dropdown } from "react-bootstrap";
 
 function App() {
   const store = createStore(
@@ -19,33 +20,33 @@ function App() {
   return (
     <Provider store={store}>
       <Router>
-        <div>
-          <nav>
-            <ul>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/profile">Profile</Link>
-              </li>
-              <li>
-                <Link to="/promise">Promise</Link>
-              </li>
-            </ul>
-          </nav>
+        <Dropdown>
+          <Dropdown.Toggle id="navDropdown">Navigation</Dropdown.Toggle>
 
-          <Switch>
-            <Route path="/profile">
-              <ProfilePage />
-            </Route>
-            <Route path="/promise">
-              <PromisePage />
-            </Route>
-            <Route path="/">
-              <Main />
-            </Route>
-          </Switch>
-        </div>
+          <Dropdown.Menu>
+            <Dropdown.Item>
+              <Link to="/">Home</Link>
+            </Dropdown.Item>
+            <Dropdown.Item>
+              <Link to="/profile">Profile</Link>
+            </Dropdown.Item>
+            <Dropdown.Item>
+              <Link to="/promise">Promise</Link>
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+
+        <Switch>
+          <Route path="/profile">
+            <ProfilePage />
+          </Route>
+          <Route path="/promise">
+            <PromisePage />
+          </Route>
+          <Route path="/">
+            <Main />
+          </Route>
+        </Switch>
       </Router>
     </Provider>
   );

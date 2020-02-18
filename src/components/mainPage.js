@@ -64,7 +64,7 @@ class Main extends React.Component {
     }
 
     return (
-      <div className="mainPage">
+      <div className="page">
         <div className="verticalSpacer">
           <Accordion>
             <Card>
