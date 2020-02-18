@@ -13,9 +13,9 @@ export function logClick(page, elementID) {
   });
 }
 
-export function logError(error) {
+export function logError(promise, reason) {
   axios
-  .post(`${url}/errors`, { error })
+  .post(`${url}/errors`, { promise, reason })
   .then(response => {
     console.log(response);
   })

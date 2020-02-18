@@ -10,12 +10,30 @@ import Main from "./components/mainPage";
 import ProfilePage from "./components/profilePage";
 import PromisePage from "./components/promisePage";
 import { Nav } from "react-bootstrap";
+import { logError } from "./lib/utils";
 
 function App() {
   const store = createStore(
     reducers,
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   );
+
+window.addEventListener("unhandledrejection", function(e) {
+  e.preventDefault();
+  const reason = e.detail.reason;
+  const promise = e.detail.promise;
+
+  logError(promise, reason);
+});
+
+window.addEventListener("rejectionhandled", function(e) {
+  e.preventDefault();
+  const promise = e.detail.promise;
+  const reason = e.detail.reason;
+
+  logError(promise, reason);
+});
+
 
   return (
     <Provider store={store}>
